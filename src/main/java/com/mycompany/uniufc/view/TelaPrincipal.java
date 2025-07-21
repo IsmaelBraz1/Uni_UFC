@@ -36,6 +36,11 @@ public class TelaPrincipal extends JFrame {
         
         JMenu menuEntidades = new JMenu("Entidades");
         
+        JMenu menuNavegar = new JMenu("Consultas");
+        
+        
+        
+        
         //ouvinte de clique de mouse para fazer o menu agir como um botão
         menuEntidades.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -44,11 +49,19 @@ public class TelaPrincipal extends JFrame {
                 cardLayout.show(painelConteudo, "painelDBA");
             }
         });
+         menuNavegar.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                // Comando para mostrar o painel do DBA
+                cardLayout.show(painelConteudo, "painelConsultas");
+            }
+        });
 
         
         JMenu menuConsultas = new JMenu("Arquivo");
         menuBar.add(menuArquivo);
         menuBar.add(menuEntidades); 
+         menuBar.add(menuNavegar);
         this.setJMenuBar(menuBar);
         
         
@@ -66,6 +79,9 @@ public class TelaPrincipal extends JFrame {
         //Criar e adicionar o painel do DBA
         PainelDBA painelDBA = new PainelDBA();
         painelConteudo.add(painelDBA, "painelDBA");
+        
+         PainelConsultas painelConsultas = new PainelConsultas();
+        painelConteudo.add(painelConsultas, "painelConsultas");
 
         this.add(painelConteudo, BorderLayout.CENTER);
         
