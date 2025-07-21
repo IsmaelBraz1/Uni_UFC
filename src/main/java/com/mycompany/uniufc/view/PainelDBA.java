@@ -60,6 +60,14 @@ public class PainelDBA extends JPanel {
         // Adiciona o painel como uma aba, com o título "Disciplinas"
         abas.addTab("Disciplinas", painelDisciplinas);
         
+        PainelGerenciamentoTurmas painelTurmas = new PainelGerenciamentoTurmas();
+        abas.addTab("Turmas", painelTurmas);
+        
+         PainelGerenciamentoUsuarios painelUsuarios = new PainelGerenciamentoUsuarios();
+        abas.addTab("Usuários", painelUsuarios);
+        
+        PainelGerenciamentoFuncionarios painelFuncionarios = new PainelGerenciamentoFuncionarios();
+        abas.addTab("Funcionários", painelFuncionarios);
         // Adiciona o painel de abas (com todas as abas dentro dele) ao centro do PainelDBA
         add(abas, BorderLayout.CENTER);
     }

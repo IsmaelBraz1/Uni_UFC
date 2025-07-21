@@ -11,6 +11,8 @@ package com.mycompany.uniufc.view;
 import com.mycompany.uniufc.view.DialogoAluno;
 import com.mycompany.uniufc.Model.Aluno;
 import com.mycompany.uniufc.Model.Curso;
+import com.mycompany.uniufc.Model.Matricula;
+import com.mycompany.uniufc.Model.Turma;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -34,6 +36,14 @@ public class PainelGerenciamentoAlunos extends JPanel {
         new Aluno(202511, "Maria Oliveira", "Rua B, 456", Aluno.TipoAluno.GRADUACAO, 2),
         new Aluno(90901, "Carlos Pereira", "Rua C, 789", Aluno.TipoAluno.POS_GRADUACAO, 1)
     );
+    
+    private List<Turma> listaDeTurmas = Arrays.asList(
+        new Turma(1, 2025, 1, 102, 9001, null),
+        new Turma(2, 2025, 1, 101, 9002, null)
+    );
+    private List<Matricula> listaDeMatriculas = Arrays.asList(
+        new Matricula(202510, 1, Matricula.Situacao.ATIVA, null, null) // Matrícula do João na turma 1
+    );
 
     public PainelGerenciamentoAlunos() {
         setLayout(new BorderLayout(10, 10));
@@ -56,7 +66,7 @@ public class PainelGerenciamentoAlunos extends JPanel {
         // --- AÇÕES ---
         botaoAdicionar.addActionListener(e -> {
             Frame owner = (Frame) SwingUtilities.getWindowAncestor(this);
-            DialogoAluno dialogo = new DialogoAluno(owner, null, listaDeCursos);
+           DialogoAluno dialogo = new DialogoAluno(owner, null, listaDeCursos, listaDeTurmas, listaDeMatriculas);
             dialogo.setVisible(true);
 
             if (dialogo.foiSalvo()) {
@@ -72,7 +82,7 @@ public class PainelGerenciamentoAlunos extends JPanel {
                 
                 if (aluno != null) {
                     Frame owner = (Frame) SwingUtilities.getWindowAncestor(this);
-                    DialogoAluno dialogo = new DialogoAluno(owner, aluno, listaDeCursos);
+                   DialogoAluno dialogo = new DialogoAluno(owner, aluno, listaDeCursos, listaDeTurmas, listaDeMatriculas);
                     dialogo.setVisible(true);
 
                     if (dialogo.foiSalvo()) {

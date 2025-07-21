@@ -10,9 +10,12 @@ package com.mycompany.uniufc.view;
  */
 import com.mycompany.uniufc.Model.Aluno;
 import com.mycompany.uniufc.Model.Curso;
+import com.mycompany.uniufc.Model.Matricula;
+import com.mycompany.uniufc.Model.Turma;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DialogoAluno extends JDialog {
 
@@ -21,11 +24,11 @@ public class DialogoAluno extends JDialog {
     private JComboBox<Curso> comboCursos;
     private JButton botaoSalvar, botaoCancelar;
     private JButton botaoGerenciarContatos;
-
+    private JButton botaoGerenciarMatriculas;
     private Aluno alunoResultante;
     private boolean salvo = false;
 
-    public DialogoAluno(Frame owner, Aluno alunoParaEditar, List<Curso> cursos) {
+    public DialogoAluno(Frame owner, Aluno alunoParaEditar, List<Curso> cursos, List<Turma> todasAsTurmas, List<Matricula> todasMatriculas) {
         super(owner, true);
         setTitle(alunoParaEditar == null ? "Adicionar Aluno" : "Editar Aluno");
 
@@ -78,14 +81,18 @@ public class DialogoAluno extends JDialog {
         botaoSalvar = new JButton("Salvar");
         botaoCancelar = new JButton("Cancelar");
         botaoGerenciarContatos = new JButton("Gerenciar Contatos");
+        botaoGerenciarMatriculas = new JButton("Gerenciar Matrículas");
          
         painelBotoes.add(botaoSalvar);
         painelBotoes.add(botaoCancelar);
         painelBotoes.add(botaoGerenciarContatos);
+         painelBotoes.add(botaoGerenciarMatriculas);
 // 3. Habilite/Desabilite na lógica de edição
         if (alunoParaEditar != null) {
             // ... (código que preenche os campos para edição)
             botaoGerenciarContatos.setEnabled(true);
+           
+            botaoGerenciarMatriculas.setEnabled(true);
         } else {
             botaoGerenciarContatos.setEnabled(false);
         }
@@ -96,7 +103,15 @@ public class DialogoAluno extends JDialog {
             dialogoContatos.setVisible(true);
         });
 
-        
+         botaoGerenciarMatriculas.addActionListener(e -> {
+        // Filtra as matrículas apenas para o aluno que está sendo editado
+        List<Matricula> matriculasDoAluno = todasMatriculas.stream()
+            .filter(m -> m.getAlunoMatricula() == alunoParaEditar.getMatricula())
+            .collect(Collectors.toList());
+
+        DialogoGerenciarMatriculas dialogo = new DialogoGerenciarMatriculas(this, alunoParaEditar, todasAsTurmas, matriculasDoAluno);
+        dialogo.setVisible(true);
+    });
         // Ações
         botaoSalvar.addActionListener(e -> onSalvar());
         botaoCancelar.addActionListener(e -> dispose());
