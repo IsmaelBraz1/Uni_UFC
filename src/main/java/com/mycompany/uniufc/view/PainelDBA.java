@@ -24,34 +24,43 @@ public class PainelDBA extends JPanel {
     private JTabbedPane abas;
 
     public PainelDBA() {
-        // O layout do próprio PainelDBA
+        // O layout do próprio PainelDBA, que vai conter o painel de abas
         setLayout(new BorderLayout());
 
-        // Cria o painel com abas
+        // Cria o componente principal que conterá as abas
         abas = new JTabbedPane();
 
         // --- ABA DE DEPARTAMENTOS ---
-        // Cria uma instância do nosso novo painel de gerenciamento
+        // Cria uma instância do painel de gerenciamento de departamentos
         PainelGerenciamentoDepartamentos painelDepartamentos = new PainelGerenciamentoDepartamentos();
-        // Adiciona o painel como uma aba
+        // Adiciona o painel como uma aba, com o título "Departamentos"
         abas.addTab("Departamentos", painelDepartamentos);
 
-        // --- ABA DE CURSOS (Exemplo de como adicionar outras abas) ---
+        // --- ABA DE CURSOS ---
+        // Cria uma instância do painel de gerenciamento de cursos
         PainelGerenciamentoCursos painelCursos = new PainelGerenciamentoCursos();
+        // Adiciona o painel como uma aba, com o título "Cursos"
         abas.addTab("Cursos", painelCursos);
 
-        // --- ABA DE ALUNOS (Exemplo) ---
-         PainelGerenciamentoAlunos painelAlunos = new PainelGerenciamentoAlunos();
-         abas.addTab("Alunos", painelAlunos);
-         
-         PainelGerenciamentoProfessores painelProfessores = new PainelGerenciamentoProfessores();
-        abas.addTab("Professores", painelProfessores);
-        
-        // Adiciona mais abas para outras entidades conforme necessário...
-        // abas.addTab("Professores", new PainelGerenciamentoProfessores());
-        // abas.addTab("Disciplinas", new PainelGerenciamentoDisciplinas());
+        // --- ABA DE ALUNOS ---
+        // Cria uma instância do painel de gerenciamento de alunos
+        PainelGerenciamentoAlunos painelAlunos = new PainelGerenciamentoAlunos();
+        // Adiciona o painel como uma aba, com o título "Alunos"
+        abas.addTab("Alunos", painelAlunos);
 
-        // Adiciona o painel de abas ao PainelDBA
+        // --- ABA DE PROFESSORES ---
+        // Cria uma instância do painel de gerenciamento de professores
+        PainelGerenciamentoProfessores painelProfessores = new PainelGerenciamentoProfessores();
+        // Adiciona o painel como uma aba, com o título "Professores"
+        abas.addTab("Professores", painelProfessores);
+
+        // --- ABA DE DISCIPLINAS ---
+        // Cria uma instância do painel de gerenciamento de disciplinas
+        PainelGerenciamentoDisciplinas painelDisciplinas = new PainelGerenciamentoDisciplinas();
+        // Adiciona o painel como uma aba, com o título "Disciplinas"
+        abas.addTab("Disciplinas", painelDisciplinas);
+        
+        // Adiciona o painel de abas (com todas as abas dentro dele) ao centro do PainelDBA
         add(abas, BorderLayout.CENTER);
     }
 }
