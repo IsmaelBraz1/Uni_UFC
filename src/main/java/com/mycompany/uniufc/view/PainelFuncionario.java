@@ -44,7 +44,27 @@ public class PainelFuncionario extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        
+        // Busca o departamento do funcionário na lista mockada
+        Departamento meuDepartamento = todosDepartamentos.stream()
+                .filter(d -> d.getCodDepart() == funcionarioLogado.getCodDepart())
+                .findFirst()
+                .orElse(new Departamento(0, "Não encontrado")); // Fallback
+
+        // Exibe as informações
+        gbc.gridx = 0; gbc.gridy = 0;
+        painelInfo.add(new JLabel("Código do Departamento:"), gbc);
+        gbc.gridy++;
+        painelInfo.add(new JLabel("Nome do Departamento:"), gbc);
+
+        gbc.gridx = 1; gbc.gridy = 0;
+        JTextField campoCod = new JTextField(String.valueOf(meuDepartamento.getCodDepart()), 10);
+        campoCod.setEditable(false);
+        painelInfo.add(campoCod, gbc);
+
+        gbc.gridy++;
+        JTextField campoNome = new JTextField(meuDepartamento.getNomeDepart(), 25);
+        campoNome.setEditable(false);
+        painelInfo.add(campoNome, gbc);
         
         // Adiciona um "painel de enchimento" para empurrar o conteúdo para cima
         gbc.gridy++; gbc.weighty = 1.0;

@@ -20,6 +20,7 @@ public class DialogoFuncionario extends JDialog {
 
     private JTextField campoId, campoNome, campoEndereco;
     private JComboBox<Funcionario.TipoFuncionario> comboTipo;
+    private JComboBox<Departamento> comboDepartamento; // CAMPO NOVO
     private JButton botaoSalvar, botaoCancelar;
 
     private Funcionario funcionarioResultante;
@@ -35,7 +36,8 @@ public class DialogoFuncionario extends JDialog {
         campoNome = new JTextField(20);
         campoEndereco = new JTextField(30);
         comboTipo = new JComboBox<>(Funcionario.TipoFuncionario.values());
-       
+        comboDepartamento = new JComboBox<>();
+        departamentos.forEach(comboDepartamento::addItem); // Popula o novo JComboBox
 
         // Layout atualizado para 5 linhas
         JPanel painelFormulario = new JPanel(new GridLayout(5, 2, 5, 5));
@@ -48,7 +50,8 @@ public class DialogoFuncionario extends JDialog {
         painelFormulario.add(campoEndereco);
         painelFormulario.add(new JLabel("Tipo:"));
         painelFormulario.add(comboTipo);
-    
+        painelFormulario.add(new JLabel("Departamento:")); // LINHA NOVA
+        painelFormulario.add(comboDepartamento);       // LINHA NOVA
 
         // Lógica de Edição
         if (funcionarioParaEditar != null) {
@@ -58,7 +61,13 @@ public class DialogoFuncionario extends JDialog {
             campoEndereco.setText(funcionarioParaEditar.getEnderecoFuncionario());
             comboTipo.setSelectedItem(funcionarioParaEditar.getTipoFuncionario());
             
-            
+            // Seleciona o departamento correto no JComboBox
+            for(Departamento d : departamentos){
+                if(d.getCodDepart() == funcionarioParaEditar.getCodDepart()){
+                    comboDepartamento.setSelectedItem(d);
+                    break;
+                }
+            }
         }
 
         // Botões
@@ -90,10 +99,10 @@ public class DialogoFuncionario extends JDialog {
             String nome = campoNome.getText();
             String endereco = campoEndereco.getText();
             Funcionario.TipoFuncionario tipo = (Funcionario.TipoFuncionario) comboTipo.getSelectedItem();
-           
+            Departamento depto = (Departamento) comboDepartamento.getSelectedItem();
 
             // CORREÇÃO: Chamando o construtor com os 5 argumentos corretos
-            this.funcionarioResultante = new Funcionario(id, nome, endereco, tipo);
+            this.funcionarioResultante = new Funcionario(id, nome, endereco, tipo, depto.getCodDepart());
             this.salvo = true;
             dispose();
 
