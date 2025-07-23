@@ -1,0 +1,116 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.uniufc.view;
+
+/**
+ *
+ * @author IsmaelBrz
+ */
+
+import com.mycompany.uniufc.Model.Departamento;
+import com.mycompany.uniufc.Model.Funcionario;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
+
+public class DialogoFuncionario extends JDialog {
+
+    private JTextField campoId, campoNome, campoEndereco;
+    private JComboBox<Funcionario.TipoFuncionario> comboTipo;
+    private JComboBox<Departamento> comboDepartamento; // CAMPO NOVO
+    private JButton botaoSalvar, botaoCancelar;
+
+    private Funcionario funcionarioResultante;
+    private boolean salvo = false;
+
+    // Construtor atualizado para receber a lista de departamentos
+    public DialogoFuncionario(Frame owner, Funcionario funcionarioParaEditar, List<Departamento> departamentos) {
+        super(owner, true);
+        setTitle(funcionarioParaEditar == null ? "Adicionar Funcionário" : "Editar Funcionário");
+
+        // Componentes
+        campoId = new JTextField(10);
+        campoNome = new JTextField(20);
+        campoEndereco = new JTextField(30);
+        comboTipo = new JComboBox<>(Funcionario.TipoFuncionario.values());
+        comboDepartamento = new JComboBox<>();
+        departamentos.forEach(comboDepartamento::addItem); // Popula o novo JComboBox
+
+        // Layout atualizado para 5 linhas
+        JPanel painelFormulario = new JPanel(new GridLayout(5, 2, 5, 5));
+        painelFormulario.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        painelFormulario.add(new JLabel("ID Funcionário:"));
+        painelFormulario.add(campoId);
+        painelFormulario.add(new JLabel("Nome:"));
+        painelFormulario.add(campoNome);
+        painelFormulario.add(new JLabel("Endereço:"));
+        painelFormulario.add(campoEndereco);
+        painelFormulario.add(new JLabel("Tipo:"));
+        painelFormulario.add(comboTipo);
+        painelFormulario.add(new JLabel("Departamento:")); // LINHA NOVA
+        painelFormulario.add(comboDepartamento);       // LINHA NOVA
+
+        // Lógica de Edição
+        if (funcionarioParaEditar != null) {
+            campoId.setText(String.valueOf(funcionarioParaEditar.getIdFuncionario()));
+            campoId.setEditable(false);
+            campoNome.setText(funcionarioParaEditar.getNomeFuncionario());
+            campoEndereco.setText(funcionarioParaEditar.getEnderecoFuncionario());
+            comboTipo.setSelectedItem(funcionarioParaEditar.getTipoFuncionario());
+            
+            // Seleciona o departamento correto no JComboBox
+            for(Departamento d : departamentos){
+                if(d.getCodDepart() == funcionarioParaEditar.getCodDepart()){
+                    comboDepartamento.setSelectedItem(d);
+                    break;
+                }
+            }
+        }
+
+        // Botões
+        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        botaoSalvar = new JButton("Salvar");
+        botaoCancelar = new JButton("Cancelar");
+        painelBotoes.add(botaoSalvar);
+        painelBotoes.add(botaoCancelar);
+        
+        // Ações
+        botaoSalvar.addActionListener(e -> onSalvar());
+        botaoCancelar.addActionListener(e -> dispose());
+
+        // Montagem
+        add(painelFormulario, BorderLayout.CENTER);
+        add(painelBotoes, BorderLayout.SOUTH);
+        pack();
+        setLocationRelativeTo(owner);
+    }
+
+    private void onSalvar() {
+        if (campoId.getText().trim().isEmpty() || campoNome.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ID e Nome são obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            int id = Integer.parseInt(campoId.getText());
+            String nome = campoNome.getText();
+            String endereco = campoEndereco.getText();
+            Funcionario.TipoFuncionario tipo = (Funcionario.TipoFuncionario) comboTipo.getSelectedItem();
+            Departamento depto = (Departamento) comboDepartamento.getSelectedItem();
+
+            // CORREÇÃO: Chamando o construtor com os 5 argumentos corretos
+            this.funcionarioResultante = new Funcionario(id, nome, endereco, tipo, depto.getCodDepart());
+            this.salvo = true;
+            dispose();
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "O ID deve ser um número.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public Funcionario getFuncionario() { return funcionarioResultante; }
+    public boolean foiSalvo() { return salvo; }
+}
