@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.mycompany.uniufc.Model.Organizador;
+
 public class PainelGerenciamentoCursos extends JPanel {
 
     private JTable tabelaCursos;
@@ -29,11 +31,7 @@ public class PainelGerenciamentoCursos extends JPanel {
         new Departamento(101, "Ciência da Computação"),
         new Departamento(102, "Engenharia Elétrica")
     );
-    private List<Curso> listaDeCursos = Arrays.asList(
-        new Curso(1, "Sistemas de Informação", 180, 101),
-        new Curso(2, "Engenharia de Software", 200, 101),
-        new Curso(3, "Engenharia de Controle e Automação", 220, 102)
-    );
+    private List<Curso> listaDeCursos;
 
     public PainelGerenciamentoCursos() {
         setLayout(new BorderLayout(10, 10));
@@ -103,13 +101,12 @@ public class PainelGerenciamentoCursos extends JPanel {
 
     private void preencherTabela() {
         modelTabela.setRowCount(0);
+        
+        listaDeCursos = Organizador.listaCurso();
+        
         for (Curso curso : listaDeCursos) {
             // Simula um JOIN para buscar o nome do departamento
-            String nomeDepto = listaDeDepartamentos.stream()
-                .filter(d -> d.getCodDepart() == curso.getCodDepart())
-                .map(Departamento::getNomeDepart)
-                .findFirst()
-                .orElse("Não encontrado");
+            String nomeDepto = Organizador.tradutor("Departamento", curso.getCodDepart());
             
             modelTabela.addRow(new Object[]{
                 curso.getCodCurso(),

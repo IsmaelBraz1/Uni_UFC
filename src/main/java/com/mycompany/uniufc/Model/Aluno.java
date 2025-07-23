@@ -10,9 +10,17 @@ package com.mycompany.uniufc.Model;
  */
 public class Aluno {
 
+    public String getNome() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public String getTipo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public enum TipoAluno {
         GRADUACAO("Graduacao"),
-        POS_GRADUACAO("PosGraduacao");
+        POSGRADUACAO("PosGraduacao");
 
         private final String nomeNoBanco;
 
@@ -40,11 +48,24 @@ public class Aluno {
         this.tipoAlu = tipoAlu;
         this.codCurso = codCurso;
     }
-    
-    
-    public int getMatricula() { return matricula; }
-    public String getNomeAlu() { return nomeAlu; }
-    public String getEndereco() { return endereco; }
-    public TipoAluno getTipoAlu() { return tipoAlu; }
-    public int getCodCurso() { return codCurso; }
+
+    public int getMatricula() {
+        return matricula;
+    }
+
+    public String getNomeAlu() {
+        return nomeAlu;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public TipoAluno getTipoAlu() {
+        return tipoAlu;
+    }
+
+    public int getCodCurso() {
+        return codCurso;
+    }
 }

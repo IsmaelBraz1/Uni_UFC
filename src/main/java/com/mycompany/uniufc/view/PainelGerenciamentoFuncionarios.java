@@ -8,11 +8,15 @@ package com.mycompany.uniufc.view;
  *
  * @author IsmaelBrz
  */
-
+import com.mycompany.uniufc.Control.Conexao;
+import com.mycompany.uniufc.Model.Departamento;
 import com.mycompany.uniufc.Model.Funcionario;
+import com.mycompany.uniufc.Model.Organizador;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,10 +24,14 @@ public class PainelGerenciamentoFuncionarios extends JPanel {
 
     private JTable tabelaFuncionarios;
     private DefaultTableModel modelTabela;
-    private List<Funcionario> listaDeFuncionarios = Arrays.asList(
-            new Funcionario(501, "Carlos Souza", "Portaria Bloco A", Funcionario.TipoFuncionario.PORTARIA),
-            new Funcionario(101, "Ana Costa", "Secretaria CC", Funcionario.TipoFuncionario.COORDENACAO)
+
+    // Adicionar lista de departamentos para passar ao diálogo
+    private List<Departamento> listaDeDepartamentos = Arrays.asList(
+            new Departamento(101, "Ciência da Computação"),
+            new Departamento(102, "Engenharia Elétrica")
     );
+
+    private List<Funcionario> listaDeFuncionarios;
 
     public PainelGerenciamentoFuncionarios() {
         setLayout(new BorderLayout(10, 10));
@@ -46,10 +54,20 @@ public class PainelGerenciamentoFuncionarios extends JPanel {
         // Ações
         btnAdicionar.addActionListener(e -> {
             Frame owner = (Frame) SwingUtilities.getWindowAncestor(this);
-            DialogoFuncionario dialogo = new DialogoFuncionario(owner, null);
+            // Atualiza a chamada para passar a lista de departamentos
+            DialogoFuncionario dialogo = new DialogoFuncionario(owner, null, listaDeDepartamentos);
             dialogo.setVisible(true);
             if (dialogo.foiSalvo()) {
-                System.out.println("Salvar novo funcionário: " + dialogo.getFuncionario().getNomeFuncionario());
+                try {
+                    System.out.println("Salvar novo funcionário: " + dialogo.getFuncionario().getNomeFuncionario());
+                    Funcionario newFun = new Funcionario(dialogo.getFuncionario().getIdFuncionario(), dialogo.getFuncionario().getNomeFuncionario(), dialogo.getFuncionario().getEnderecoFuncionario(), dialogo.getFuncionario().getTipoFuncionario());
+                    Conexao.inserirFuncionario(newFun);
+                    preencherTabela();
+                } catch (SQLException ex) {
+                    System.getLogger(PainelGerenciamentoFuncionarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                } catch (ClassNotFoundException ex) {
+                    System.getLogger(PainelGerenciamentoFuncionarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
             }
         });
 
@@ -60,24 +78,55 @@ public class PainelGerenciamentoFuncionarios extends JPanel {
                 Funcionario func = listaDeFuncionarios.stream().filter(f -> f.getIdFuncionario() == id).findFirst().orElse(null);
                 if (func != null) {
                     Frame owner = (Frame) SwingUtilities.getWindowAncestor(this);
-                    DialogoFuncionario dialogo = new DialogoFuncionario(owner, func);
+                    // Atualiza a chamada para passar a lista de departamentos
+                    DialogoFuncionario dialogo = new DialogoFuncionario(owner, func, listaDeDepartamentos);
                     dialogo.setVisible(true);
                     if (dialogo.foiSalvo()) {
                         System.out.println("Editar funcionário: " + dialogo.getFuncionario().getNomeFuncionario());
+                        try {
+                            System.out.println("Atualizar funcionário: " + dialogo.getFuncionario().getNomeFuncionario());
+                            Funcionario newFun = new Funcionario(dialogo.getFuncionario().getIdFuncionario(), dialogo.getFuncionario().getNomeFuncionario(), dialogo.getFuncionario().getEnderecoFuncionario(), dialogo.getFuncionario().getTipoFuncionario());
+                            Conexao.atualizarFuncionario(newFun);
+                            preencherTabela();
+                        } catch (SQLException ex) {
+                            System.getLogger(PainelGerenciamentoFuncionarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            System.getLogger(PainelGerenciamentoFuncionarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                        }
                     }
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione um funcionário para editar.", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
         });
-        
+
         btnExcluir.addActionListener(e -> {
-            // Lógica de exclusão com confirmação...
+             int linhaSelecionada = tabelaFuncionarios.getSelectedRow();
+            if (linhaSelecionada != -1) {
+                System.out.println("Botão EXCLUIR Funcionario clicado para a linha: " + linhaSelecionada);
+                
+                Object idFun = tabelaFuncionarios.getValueAt(linhaSelecionada, 0);
+                try {
+                    Conexao.deletarFuncionario((int) idFun);
+                    preencherTabela();
+                } catch (SQLException ex) {
+                    System.getLogger(PainelGerenciamentoFuncionarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                } catch (ClassNotFoundException ex) {
+                    System.getLogger(PainelGerenciamentoFuncionarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+                JOptionPane.showMessageDialog(this, "Excluir Funcionario com código: " + idFun);
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, selecione um funcionario para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
         });
     }
-    
+
     private void preencherTabela() {
         modelTabela.setRowCount(0);
+
+        listaDeFuncionarios = Organizador.listaFuncio();
+
         for (Funcionario f : listaDeFuncionarios) {
             modelTabela.addRow(new Object[]{f.getIdFuncionario(), f.getNomeFuncionario(), f.getEnderecoFuncionario(), f.getTipoFuncionario()});
         }
