@@ -31,23 +31,20 @@ public class DialogoPreRequisitos extends JDialog {
         modelDisponiveis = new DefaultListModel<>();
         modelAtuais = new DefaultListModel<>();
 
-        // --- Mock de pré-requisitos existentes (futuramente virá do banco) ---
-        // Exemplo: a disciplina "Banco de Dados" tem "Algoritmos I" como pré-requisito.
+      
         List<Disciplina> preRequisitosAtuais;
-        if (disciplinaAlvo.getCodDisc() == 102) { // Simula que estamos editando "Banco de Dados"
+        if (disciplinaAlvo.getCodDisc() == 102) { 
             preRequisitosAtuais = todasAsDisciplinas.stream()
-                .filter(d -> d.getCodDisc() == 101) // Filtra por "Algoritmos I"
+                .filter(d -> d.getCodDisc() == 101) 
                 .collect(Collectors.toList());
         } else {
-            preRequisitosAtuais = List.of(); // Lista vazia para os outros
+            preRequisitosAtuais = List.of(); 
         }
 
-        // Popula a lista da direita (Pré-requisitos Atuais)
+     
         preRequisitosAtuais.forEach(modelAtuais::addElement);
 
-        // Popula a lista da esquerda (Disciplinas Disponíveis)
-        // Uma disciplina não pode ser pré-requisito dela mesma.
-        // E não pode estar disponível se já for um pré-requisito.
+
         List<Integer> codigosAtuais = preRequisitosAtuais.stream().map(Disciplina::getCodDisc).collect(Collectors.toList());
         todasAsDisciplinas.stream()
             .filter(d -> d.getCodDisc() != disciplinaAlvo.getCodDisc() && !codigosAtuais.contains(d.getCodDisc()))
@@ -112,7 +109,6 @@ public class DialogoPreRequisitos extends JDialog {
         });
 
         btnSalvar.addActionListener(e -> {
-            // Futuramente, aqui salvaremos a lista de pré-requisitos no banco
             System.out.println("Salvando " + modelAtuais.getSize() + " pré-requisitos para a disciplina " + disciplinaAlvo.getNomeDisc());
             dispose();
         });

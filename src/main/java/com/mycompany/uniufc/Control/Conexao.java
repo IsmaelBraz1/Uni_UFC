@@ -42,8 +42,7 @@ public class Conexao {
         return conexao;
     }
 // 1. Disciplinas por situação (Cursando/Cursada) de um aluno
-
-    public static void disciplinasPorSituacao(int matricula, String situacao) throws SQLException, ClassNotFoundException {
+ public static List<String> disciplinasPorSituacao(int matricula, String situacao) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT * FROM disciplina WHERE cod_disc IN (
                 SELECT cod_disc FROM turma WHERE id_turma in (
@@ -52,18 +51,23 @@ public class Conexao {
                 )
             )
         """;
+        
+        List<String> lista = new ArrayList<>();
+        
         Connection conn = conectar();
-        try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (conn ; PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, situacao);
             stmt.setInt(2, matricula);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 System.out.println("Codigo da disciplina:" + rs.getString("cod_disc") + " Nome da disciplina:" + rs.getString("nome_disc") + " Ementa:" + rs.getString("ementa")
-                        + " Numero de Creditos:" + rs.getString("num_creditos") + " Tipo da disciplina:" + rs.getString("Tipo_disciplina") + " Cidigo do Curso" + rs.getString("cod_curso"));
+                + " Numero de Creditos:" + rs.getString("num_creditos") + " Tipo da disciplina:" + rs.getString("Tipo_disciplina") + " Cidigo do Curso" + rs.getString("cod_curso"));
+            lista.add(rs.getString("nome_disc"));
             }
+            
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
-        } finally {
+        }finally {
             if (conn != null) {
                 try {
                     System.out.println("conexao finalizada ");
@@ -73,6 +77,7 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
     // 2. Curso do aluno
@@ -81,19 +86,20 @@ public class Conexao {
             SELECT nome_curso FROM curso 
             WHERE cod_curso = (SELECT Curso_cod_curso FROM aluno WHERE matricula = ?)
         """;
-
+        String curso = "null";
+        
         Connection conn = conectar();
         try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, matricula);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-
+                
                 System.out.println("Curso: " + rs.getString("nome_curso"));
-                return rs.getString("nome_curso");
+                curso = rs.getString("nome_curso");
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
-        } finally {
+        }finally {
             if (conn != null) {
                 try {
                     System.out.println("conexao finalizada ");
@@ -103,17 +109,18 @@ public class Conexao {
                 }
             }
         }
-        return null;
+          return curso;
     }
 
     // 3. Dados pessoais do aluno
-    public static void dadosPessoaisDoAluno(int matricula) throws SQLException, ClassNotFoundException {
+    public static Aluno dadosPessoaisDoAluno(int matricula) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT a.matricula, a.nome_alu, a.endereco, a.tipo_alu, c.nome_curso , a.Curso_cod_curso
             FROM aluno a JOIN curso c ON a.Curso_cod_curso = c.cod_curso
             WHERE a.matricula = ?
         """;
-
+        Aluno aluno = null;
+        
         Connection conn = conectar();
 
         try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -121,11 +128,20 @@ public class Conexao {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 System.out.println("Matricula do Aluno: " + rs.getString("matricula") + " Nome: " + rs.getString("nome_alu") + " Endereço: " + rs.getString("endereco")
-                        + " Tipo do Aluno: " + rs.getString("tipo_alu") + " Curso: " + rs.getString("nome_curso") + " Codigo do Curso:" + rs.getInt("Curso_cod_curso"));
+                + " Tipo do Aluno: "+rs.getString("tipo_alu") + " Curso: "+rs.getString("nome_curso") + " Codigo do Curso:" + rs.getInt("Curso_cod_curso"));
+            
+            int matr = rs.getInt("matricula");
+            String nome = rs.getString("nome_alu");
+            String endereco = rs.getString("endereco");
+            String tipoStr = rs.getString("tipo_alu").toUpperCase();
+            int periodo = rs.getInt("Curso_cod_curso");
+
+            Aluno.TipoAluno tipo = Aluno.TipoAluno.valueOf(tipoStr);
+            aluno = new Aluno(matr, nome, endereco, tipo, periodo);
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
-        } finally {
+        }finally {
             if (conn != null) {
                 try {
                     System.out.println("conexao finalizada ");
@@ -135,23 +151,35 @@ public class Conexao {
                 }
             }
         }
+        return aluno;
     }
 
     // 4. Cursos de um departamento
-    public static void cursosDoDepartamento(int codDepart) throws SQLException, ClassNotFoundException {
+    public static List<Curso> cursosDoDepartamento(int codDepart) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM curso WHERE cod_depart = ?";
-
+        List<Curso> lista = new ArrayList<>();
+        
         Connection conn = conectar();
         try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, codDepart);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                System.out.println("Codigo do curso: " + rs.getString("cod_curso") + " Curso: " + rs.getString("nome_curso") + "Creditos minimos: " + rs.getString("creditos_minimos")
-                        + "Codigo do departamento: " + rs.getString("cod_depart"));
+                System.out.println("Codigo do curso: " +  rs.getString("cod_curso") + " Curso: " + rs.getString("nome_curso") + "Creditos minimos: " +  rs.getString("creditos_minimos")
+                + "Codigo do departamento: " +  rs.getString("cod_depart"));
+                
+            int cod_curso = rs.getInt("cod_curso");
+            String nome = rs.getString("nome_curso");
+            int creditos = rs.getInt("creditos_minimos");
+            int cod_depart = rs.getInt("cod_depart");
+ 
+              
+            Curso curso = new Curso(cod_curso, nome, creditos, cod_depart);
+
+            lista.add(curso);
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
-        } finally {
+        }finally {
             if (conn != null) {
                 try {
                     System.out.println("conexao finalizada ");
@@ -161,22 +189,29 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
-
+    
     // 5. Detalhes de um departamento
-    public static void DetalhesDoDepartamento(int codDepart) throws SQLException, ClassNotFoundException {
+    public static Departamento DetalhesDoDepartamento(int codDepart) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM departamento WHERE cod_depart = ?";
-
+        Departamento depart = null;
+        
         Connection conn = conectar();
         try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, codDepart);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                System.out.println("Codigo do departamento: " + rs.getInt("cod_depart") + " Disciplina: " + rs.getString("nome_depart"));
+                System.out.println("Codigo do departamento: " + rs.getInt("cod_depart") + " Disciplina: "+ rs.getString("nome_depart"));
+            int cod_depart = rs.getInt("cod_depart");
+            String nome = rs.getString("nome_depart");
+              
+            depart = new Departamento(cod_depart, nome);
+                
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
-        } finally {
+        }finally {
             if (conn != null) {
                 try {
                     System.out.println("conexao finalizada ");
@@ -186,16 +221,19 @@ public class Conexao {
                 }
             }
         }
+        return depart;
     }
 
     // 6. Disciplinas obrigatórias/optativas de um curso
-    public static void disciplinasPorTipo(String nomeCurso, String tipo) throws SQLException, ClassNotFoundException {
+    public static List<String> disciplinasPorTipo(String nomeCurso, String tipo) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT * FROM disciplina WHERE Tipo_disciplina = ? AND cod_curso = (
                 SELECT cod_curso FROM curso WHERE nome_curso = ?
             )
         """;
-
+        
+        List<String> lista = new ArrayList<>();
+        
         Connection conn = conectar();
 
         try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -203,12 +241,14 @@ public class Conexao {
             stmt.setString(2, nomeCurso);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                System.out.println("Codigo da disciplina: " + rs.getString("cod_disc") + " Disciplina: " + rs.getString("nome_disc") + " Ementa:" + rs.getString("ementa")
-                        + " Numero de creditos: " + rs.getString("num_creditos") + " Tipo de Disciplina" + rs.getString("Tipo_disciplina") + " Codigo do curso:" + rs.getString("cod_curso"));
+                System.out.println("Codigo da disciplina: " +  rs.getString("cod_disc") + " Disciplina: " + rs.getString("nome_disc") + " Ementa:" +  rs.getString("ementa")
+                        + " Numero de creditos: " +  rs.getString("num_creditos") + " Tipo de Disciplina" +  rs.getString("Tipo_disciplina") + " Codigo do curso:" +  rs.getString("cod_curso") );
+                lista.add(rs.getString("nome_disc"));
+            
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
-        } finally {
+        }finally {
             if (conn != null) {
                 try {
                     System.out.println("conexao finalizada ");
@@ -218,16 +258,18 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
     // 7. Alunos de um curso
-    public static void alunosDoCurso(String nomeCurso) throws SQLException, ClassNotFoundException {
+    public static List<String> alunosDoCurso(String nomeCurso) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT nome_alu FROM aluno WHERE Curso_cod_curso = (
                 SELECT cod_curso FROM curso WHERE nome_curso = ?
             )
         """;
-
+        List<String> lista =  new ArrayList<>();
+        
         Connection conn = conectar();
 
         try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -235,10 +277,11 @@ public class Conexao {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 System.out.println("Aluno: " + rs.getString("nome_alu"));
+                lista.add(rs.getString("nome_alu"));
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
-        } finally {
+        }finally {
             if (conn != null) {
                 try {
                     System.out.println("conexao finalizada ");
@@ -248,10 +291,11 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
     // 8. Alunos que cursaram todas obrigatórias
-    public static void alunosComTodasObrigatorias(String nomeCurso) throws SQLException, ClassNotFoundException {
+    public static List<String> alunosComTodasObrigatorias(String nomeCurso) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT aluno.matricula, aluno.nome_alu
             FROM aluno
@@ -269,19 +313,21 @@ public class Conexao {
                   AND Tipo_disciplina = 'obrigatoria'
             )
         """;
-
+        List<String> lista = new ArrayList<>();
+        
         Connection conn = conectar();
-
+        
         try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nomeCurso);
             stmt.setString(2, nomeCurso);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                System.out.println("Matricula: " + rs.getString("matricula") + " Aluno completo: " + rs.getString("nome_alu"));
+                System.out.println("Matricula: " +  rs.getString("matricula") + " Aluno completo: " + rs.getString("nome_alu"));
+                lista.add(rs.getString("nome_alu"));
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
-        } finally {
+        }finally {
             if (conn != null) {
                 try {
                     System.out.println("conexao finalizada ");
@@ -291,10 +337,11 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
     // 9. Alunos que não fizeram nenhuma optativa
-    public static void alunosSemOptativas(String nomeCurso) throws SQLException, ClassNotFoundException {
+    public static List<String> alunosSemOptativas(String nomeCurso) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT a.matricula, a.nome_alu
             FROM aluno a
@@ -309,6 +356,7 @@ public class Conexao {
                 AND m.Situacao = 'cursada'
             )
         """;
+        List<String> lista = new ArrayList<>();
 
         Connection conn = conectar();
         try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -316,6 +364,7 @@ public class Conexao {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 System.out.println("Matricula: " + rs.getString("matricula") + " Sem optativas: " + rs.getString("nome_alu"));
+                lista.add(rs.getString("nome_alu"));
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
@@ -329,10 +378,11 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
     //10. Alunos em uma certa Disciplina
-    public static void alunosDaDisciplina(String nomeDisciplina) throws SQLException, ClassNotFoundException {
+    public static List<String> alunosDaDisciplina(String nomeDisciplina) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT * FROM aluno WHERE matricula IN (
                 SELECT Aluno_matricula FROM matricula_na_turma 
@@ -342,6 +392,7 @@ public class Conexao {
                 )
             )
         """;
+        List<String> lista = new ArrayList<>();
 
         Connection conn = conectar();
         try (conn; PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -349,7 +400,8 @@ public class Conexao {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 System.out.println("Matricula: " + rs.getString("matricula") + " Alunos: " + rs.getString("nome_alu") + " Endereco:" + rs.getString("endereco")
-                        + " Tipo do aluno: " + rs.getString("tipo_alu") + " Codigo do curso:" + rs.getInt("Curso_cod_curso"));
+                        + " Tipo do aluno: " + rs.getString("tipo_alu") + " Codigo do curso:" + rs.getInt("Curso_cod_curso")); 
+             lista.add(rs.getString("nome_alu"));
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
@@ -362,17 +414,20 @@ public class Conexao {
                     System.out.println("Erro ao fechar conexão: " + ex.getMessage());
                 }
             }
-        }
+  
+    }
+       return lista;
     }
 
     //11. Dado uma disciplina, os pré-requisitos dela
-    public static void prerequisitosDaDisciplina(String nomeDisciplina) throws SQLException, ClassNotFoundException {
+    public static List<String> prerequisitosDaDisciplina(String nomeDisciplina) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT * FROM disciplina WHERE cod_disc IN (
                 SELECT cod_disc_pre_requisito FROM prerequisito 
                 WHERE cod_disc = (SELECT cod_disc FROM disciplina WHERE nome_disc = ?)
             )
         """;
+        List<String> lista = new ArrayList<>();
 
         Connection conn = conectar();
 
@@ -382,6 +437,7 @@ public class Conexao {
             while (rs.next()) {
                 System.out.println("Codigo da disciplina: " + rs.getInt("cod_disc") + " Pré-requisito: " + rs.getString("nome_disc") + " Ementa:" + rs.getString("ementa")
                         + " Numero de numeros: " + rs.getString("num_creditos") + " Tipo de disciplina: " + rs.getString("Tipo_disciplina") + " Codigo do curso:" + rs.getInt("cod_curso"));
+            lista.add(rs.getString("nome_disc"));
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
@@ -395,10 +451,11 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
     //12. Dado uma disciplina, as disciplinas que ela é pré-requisito
-    public static void disciplinasQueDependem(String nomeDisciplina) throws SQLException, ClassNotFoundException {
+    public static List<String> disciplinasQueDependem(String nomeDisciplina) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT * FROM disciplina WHERE cod_disc IN (
                 SELECT cod_disc FROM prerequisito 
@@ -407,6 +464,7 @@ public class Conexao {
                 )
             )
         """;
+        List<String> lista = new ArrayList<>();
 
         Connection conn = conectar();
 
@@ -416,6 +474,7 @@ public class Conexao {
             while (rs.next()) {
                 System.out.println("Codigo da disciplina: " + rs.getInt("cod_disc") + " Pré-requisito: " + rs.getString("nome_disc") + " Ementa:" + rs.getString("ementa")
                         + " Numero de numeros: " + rs.getString("num_creditos") + " Tipo de disciplina: " + rs.getString("Tipo_disciplina") + " Codigo do curso:" + rs.getInt("cod_curso"));
+                lista.add(rs.getString("nome_disc"));
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
@@ -429,16 +488,18 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
     //13. professor orientador
-    public static void alunosOrientadosPor(String nomeProfessor) throws SQLException, ClassNotFoundException {
+    public static List<String> alunosOrientadosPor(String nomeProfessor) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT * FROM aluno WHERE matricula IN (
                 SELECT matricula FROM alunoposgraduacao 
                 WHERE siape_orient = (SELECT siape FROM professor WHERE nome_prof = ?)
             )
         """;
+        List<String> lista = new ArrayList<>();
 
         Connection conn = conectar();
 
@@ -448,6 +509,7 @@ public class Conexao {
             while (rs.next()) {
                 System.out.println("Matricula do Aluno: " + rs.getString("matricula") + " Nome: " + rs.getString("nome_alu") + " Endereço: " + rs.getString("endereco")
                         + " Tipo do Aluno: " + rs.getString("tipo_alu") + " Codigo do Curso:" + rs.getInt("Curso_cod_curso"));
+                lista.add(rs.getString("nome_alu"));
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
@@ -461,10 +523,11 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
     //14. Dado um Orientador, as disciplinas que ele da
-    public static void disciplinasDoOrientador(String nomeProfessor) throws SQLException, ClassNotFoundException {
+    public static List<String> disciplinasDoOrientador(String nomeProfessor) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT nome_disc FROM disciplina, professor WHERE cod_disc IN (
                 SELECT cod_disc FROM turma WHERE siape_prof_1 = (
@@ -477,6 +540,7 @@ public class Conexao {
                 WHERE siape_orient = (SELECT siape FROM professor WHERE nome_prof = ?)
             )
         """;
+        List<String> lista = new ArrayList<>();
 
         Connection conn = conectar();
 
@@ -487,6 +551,7 @@ public class Conexao {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 System.out.println("Disciplina ministrada: " + rs.getString("nome_disc"));
+            lista.add(rs.getString("nome_disc"));
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
@@ -500,10 +565,11 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
     //15. Dado um Orientador, o total de creditos das disciplinas que ele da
-    public static void creditosDoOrientador(String nomeProfessor) throws SQLException, ClassNotFoundException {
+    public static List<Integer> creditosDoOrientador(String nomeProfessor) throws SQLException, ClassNotFoundException {
         String sql = """
             SELECT nome_disc, num_creditos FROM disciplina, professor WHERE cod_disc IN (
                 SELECT cod_disc FROM turma WHERE siape_prof_1 = (
@@ -516,6 +582,7 @@ public class Conexao {
                 WHERE siape_orient = (SELECT siape FROM professor WHERE nome_prof = ?)
             )
         """;
+        List<Integer> lista = new ArrayList<>();
 
         Connection conn = conectar();
 
@@ -527,6 +594,7 @@ public class Conexao {
             while (rs.next()) {
                 System.out.println("Disciplina: " + rs.getString("nome_disc")
                         + ", Créditos: " + rs.getInt("num_creditos"));
+                lista.add(rs.getInt("num_creditos"));
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
@@ -540,9 +608,10 @@ public class Conexao {
                 }
             }
         }
+        return lista;
     }
 
-    // ... você pode continuar com os métodos de disciplina, orientador, etc.
+    
     public static List<Aluno> listarAlunos() throws SQLException, ClassNotFoundException {
         List<Aluno> lista = new ArrayList<>();
 
@@ -719,7 +788,7 @@ public class Conexao {
             }
 
         } catch (Exception e) {
-            System.out.println("Erro ao listar profs: " + e.getMessage());
+            System.out.println("Erro ao listar cursos: " + e.getMessage());
         } finally {
             if (conn != null) {
                 try {
@@ -1326,7 +1395,7 @@ public class Conexao {
     
 
     
-    // Método de teste (opcional)
+    // Método de teste
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Aluno kinakas = new Aluno(3000, "kink", "aculaaaa", Aluno.TipoAluno.GRADUACAO, 100);
        

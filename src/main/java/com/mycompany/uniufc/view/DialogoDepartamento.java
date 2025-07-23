@@ -21,10 +21,9 @@ public class DialogoDepartamento extends JDialog {
     private Departamento departamentoResultante;
     private boolean salvo = false;
 
-    // Construtor que serve tanto para ADICIONAR (deptoParaEditar = null)
-    // quanto para EDITAR (deptoParaEditar = um objeto Departamento)
+ 
     public DialogoDepartamento(Frame owner, Departamento deptoParaEditar) {
-        // 'super(owner, true)' cria um diálogo MODAL, que bloqueia a janela principal
+        
         super(owner, true);
 
         setTitle(deptoParaEditar == null ? "Adicionar Departamento" : "Editar Departamento");

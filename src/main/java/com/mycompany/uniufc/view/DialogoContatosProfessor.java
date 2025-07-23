@@ -89,7 +89,7 @@ public class DialogoContatosProfessor extends JDialog {
             }
         });
 
-       // ... dentro do construtor de DialogoContatosProfessor
+      
 
         addTel.addActionListener(e -> {
             // 1. Cria os componentes para o nosso mini-formulário

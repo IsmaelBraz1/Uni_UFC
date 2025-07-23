@@ -128,16 +128,15 @@ public class DialogoProfessor extends JDialog {
         
         
         if (profParaEditar != null) {
-            // ... (código existente que preenche os campos)
-            botaoGerenciarContatos.setEnabled(true); // Habilitado para editar
+      
+            botaoGerenciarContatos.setEnabled(true); 
         } else {
-            botaoGerenciarContatos.setEnabled(false); // Desabilitado para adicionar
+            botaoGerenciarContatos.setEnabled(false); 
         }
 
-        // 4. ADICIONE O ACTION LISTENER PARA O NOVO BOTÃO
         botaoGerenciarContatos.addActionListener(e -> {
-            // Cria e exibe o diálogo de contatos, passando este diálogo como "pai"
-            // e o professor que está sendo editado.
+        
+           
             DialogoContatosProfessor dialogoContatos = new DialogoContatosProfessor(this, profParaEditar);
             dialogoContatos.setVisible(true);
         });

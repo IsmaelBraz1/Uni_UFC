@@ -10,6 +10,7 @@ package com.mycompany.uniufc.view;
  */
 
 
+import com.mycompany.uniufc.Model.Organizador;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -74,18 +75,16 @@ public class PainelConsultaDisciplina extends JPanel {
 
         System.out.println("Consultando dados para a disciplina: " + disciplina);
 
-        // --- DADOS MOCKADOS DE EXEMPLO (simulando a consulta por "Banco de Dados") ---
-
         // 4.1: Alunos Matriculados
-        List.of("João da Silva", "Maria Oliveira", "Carlos Pereira")
-             .forEach(modelAlunosMatriculados::addElement);
+        List<String> listAlunMatr = Organizador.listaAlunosPorDisc(disciplina);
+            listAlunMatr.forEach(modelAlunosMatriculados::addElement);
 
         // 4.2: Pré-requisitos da Disciplina
-        List.of("Algoritmos I", "Estrutura de Dados")
-             .forEach(modelPreRequisitos::addElement);
+       List<String> listPre = Organizador.listaPrerequisitos(disciplina);
+            listPre.forEach(modelPreRequisitos::addElement);
 
         // 4.3: Disciplinas para as quais a mesma é pré-requisito
-        List.of("Sistemas de Gerenciamento de Banco de Dados", "Tópicos Especiais em Banco de Dados")
-             .forEach(modelRequisitoPara::addElement);
+        List<String> listDepen = Organizador.listaDeDepende(disciplina);
+            listDepen.forEach(modelRequisitoPara::addElement);
     }
 }

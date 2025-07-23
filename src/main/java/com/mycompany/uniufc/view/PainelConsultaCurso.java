@@ -13,6 +13,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+import com.mycompany.uniufc.Model.*;
+
 public class PainelConsultaCurso extends JPanel {
 
     private JTextField campoNomeCurso;
@@ -25,6 +27,8 @@ public class PainelConsultaCurso extends JPanel {
     private DefaultListModel<String> modelAlunosCurso;
     private DefaultListModel<String> modelAlunosConcluintes;
     private DefaultListModel<String> modelAlunosSemOptativas;
+    
+    private String nomeCurso;
 
     public PainelConsultaCurso() {
         setLayout(new BorderLayout(10, 10));
@@ -66,7 +70,7 @@ public class PainelConsultaCurso extends JPanel {
 
         // --- AÇÃO DO BOTÃO ---
         botaoConsultar.addActionListener(e -> {
-            String nomeCurso = campoNomeCurso.getText();
+            nomeCurso = campoNomeCurso.getText();
             if (!nomeCurso.trim().isEmpty()) {
                 popularComDadosMockados(nomeCurso);
             } else {
@@ -87,23 +91,23 @@ public class PainelConsultaCurso extends JPanel {
 
         // --- DADOS MOCKADOS DE EXEMPLO ---
         // 3.1: Disciplinas Obrigatórias
-        List.of("Cálculo I", "Algoritmos I", "Banco de Dados", "Engenharia de Software I")
-             .forEach(modelObrigatorias::addElement);
+        List<String> disciplinasObrig = Organizador.listaDiscPorTipo(nomeCurso, "Obrigatoria");
+        disciplinasObrig.forEach(modelObrigatorias::addElement);
 
         // 3.2: Disciplinas Optativas
-        List.of("Tópicos Especiais em IA", "Computação Gráfica", "Desenvolvimento Mobile")
-             .forEach(modelOptativas::addElement);
+        List<String> disciplinasOpta = Organizador.listaDiscPorTipo(nomeCurso, "optativa");
+        disciplinasOpta.forEach(modelOptativas::addElement);
 
         // 3.3: Alunos do Curso
-        List.of("João da Silva", "Maria Oliveira", "Carlos Pereira", "Ana Costa", "Pedro Martins")
-             .forEach(modelAlunosCurso::addElement);
+        List<String> listAlunCurso = Organizador.listaAlunosCurso(nomeCurso);
+            listAlunCurso.forEach(modelAlunosCurso::addElement);
         
         // 3.4: Alunos que concluíram as obrigatórias
-        List.of("Maria Oliveira", "Ana Costa")
-             .forEach(modelAlunosConcluintes::addElement);
+        List<String> listAlunCon = Organizador.listaAlunosConclui(nomeCurso);
+            listAlunCon.forEach(modelAlunosConcluintes::addElement);
         
         // 3.5: Alunos que não fizeram optativas
-        List.of("João da Silva", "Pedro Martins")
-             .forEach(modelAlunosSemOptativas::addElement);
+        List<String> listAlunSem = Organizador.listaAlunosSemOp(nomeCurso);
+            listAlunSem.forEach(modelAlunosSemOptativas::addElement);
     }
 }

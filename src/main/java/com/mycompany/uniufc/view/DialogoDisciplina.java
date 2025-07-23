@@ -52,12 +52,11 @@ public class DialogoDisciplina extends JDialog {
         comboCursos = new JComboBox<>();
         cursos.forEach(comboCursos::addItem);
 
-        // --- CORREÇÃO: Criação de TODOS os botões ANTES de usá-los ---
+ 
         botaoGerenciarPreRequisitos = new JButton("Gerenciar Pré-requisitos");
         botaoSalvar = new JButton("Salvar");
         botaoCancelar = new JButton("Cancelar");
 
-        // --- LÓGICA DE EDIÇÃO (Agora funciona, pois o botão já existe) ---
         if (disciplinaParaEditar != null) {
             campoCod.setText(String.valueOf(disciplinaParaEditar.getCodDisc()));
             campoCod.setEditable(false);
@@ -90,7 +89,6 @@ public class DialogoDisciplina extends JDialog {
         gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL;
         painelFormulario.add(campoNome, gbc);
         
-        // ... (Adicione as outras linhas do formulário como antes: Ementa, Créditos, Tipo, Curso)
         gbc.gridy = 2; gbc.gridx = 0; gbc.fill = GridBagConstraints.NONE; gbc.anchor = GridBagConstraints.NORTHWEST;
         painelFormulario.add(new JLabel("Ementa:"), gbc);
         gbc.gridx = 1; gbc.fill = GridBagConstraints.BOTH; gbc.weightx = 1.0; gbc.weighty = 1.0;
@@ -134,7 +132,7 @@ public class DialogoDisciplina extends JDialog {
         setLocationRelativeTo(owner);
     }
     
-    // --- MÉTODO onSalvar (Agora completo) ---
+    // --- MÉTODO onSalvar  ---
     private void onSalvar() {
         if (campoCod.getText().trim().isEmpty() || campoNome.getText().trim().isEmpty() || campoCreditos.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Código, Nome e Créditos são obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -158,7 +156,7 @@ public class DialogoDisciplina extends JDialog {
         }
     }
 
-    // --- MÉTODOS DE RESULTADO (Agora completos) ---
+    // --- MÉTODOS DE RESULTADO ---
     public Disciplina getDisciplina() {
         return disciplinaResultante;
     }

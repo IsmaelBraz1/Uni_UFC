@@ -11,6 +11,8 @@ package com.mycompany.uniufc.view;
 
 import com.mycompany.uniufc.Model.Curso;
 import com.mycompany.uniufc.Model.Departamento;
+import com.mycompany.uniufc.Model.*;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +25,8 @@ public class PainelConsultaDepartamento extends JPanel {
     private JButton botaoConsultar;
     private JTextField campoNomeResultado;
     private DefaultTableModel modelCursos;
+    
+    private int codint;
 
     public PainelConsultaDepartamento() {
         setLayout(new BorderLayout(10, 10));
@@ -66,6 +70,8 @@ public class PainelConsultaDepartamento extends JPanel {
         // --- AÇÃO DO BOTÃO ---
         botaoConsultar.addActionListener(e -> {
             String codDepto = campoCodDepartamento.getText();
+            codint = Integer.parseInt(codDepto);
+            
             if (!codDepto.trim().isEmpty()) {
                 popularComDadosMockados(codDepto);
             } else {
@@ -81,12 +87,8 @@ public class PainelConsultaDepartamento extends JPanel {
 
         // --- DADOS MOCKADOS DE EXEMPLO ---
         // Simula a busca no banco pelo departamento com o código informado
-        Departamento deptoEncontrado = new Departamento(Integer.parseInt(codDepto), "Ciência da Computação");
-        List<Curso> cursosDoDepto = List.of(
-            new Curso(1, "Sistemas de Informação", 180, deptoEncontrado.getCodDepart()),
-            new Curso(2, "Engenharia de Software", 200, deptoEncontrado.getCodDepart()),
-            new Curso(5, "Redes de Computadores", 190, deptoEncontrado.getCodDepart())
-        );
+        Departamento deptoEncontrado = Organizador.DeptCod(codint);
+        List<Curso> cursosDoDepto = Organizador.listCursoDep(codint);
 
         // Preenche os componentes com os dados encontrados
         // 2.2: Nome do departamento

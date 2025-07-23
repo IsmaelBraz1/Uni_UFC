@@ -9,6 +9,7 @@ package com.mycompany.uniufc.view;
  * @author IsmaelBrz
  */
 
+import com.mycompany.uniufc.Model.Organizador;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -79,18 +80,18 @@ public class PainelConsultaProfessor extends JPanel {
 
         System.out.println("Consultando dados para o professor: " + professor);
 
-        // --- DADOS MOCKADOS DE EXEMPLO (simulando a consulta por "Dr. Alan Turing") ---
+      
 
         // 5.1: Alunos Orientandos
-        List.of("Carlos Pereira (Pós-Graduação)", "Ana Costa (Pós-Graduação)")
-             .forEach(modelOrientandos::addElement);
+        List<String> listOrient = Organizador.listaProfOrient(professor);
+             listOrient.forEach(modelOrientandos::addElement);
 
         // 5.2: Disciplinas Lecionadas
-        List.of("Algoritmos I", "Inteligência Artificial", "Teoria da Computação")
-             .forEach(modelDisciplinas::addElement);
+        List<String> listDisc = Organizador.listaDiscProfOri(professor);
+             listDisc.forEach(modelDisciplinas::addElement);
 
         // 5.3: Total de Créditos
-        int totalCreditos = 4 + 4 + 4; // Soma dos créditos das disciplinas acima
+        int totalCreditos = Organizador.numCreditos(professor);
         campoTotalCreditos.setText(String.valueOf(totalCreditos));
     }
 }

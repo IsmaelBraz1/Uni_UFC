@@ -10,6 +10,8 @@ package com.mycompany.uniufc.view;
  */
 import com.mycompany.uniufc.Model.Aluno;
 import com.mycompany.uniufc.Model.Curso;
+import com.mycompany.uniufc.Model.*;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -26,6 +28,8 @@ public class PainelConsultaAluno extends JPanel {
     private DefaultListModel<String> modelDisciplinasConcluidas;
     private JTextField campoNomeCurso;
     private DefaultTableModel modelDadosPessoais;
+    
+    private int matriculaint;
 
     public PainelConsultaAluno() {
         setLayout(new BorderLayout(10, 10));
@@ -79,6 +83,8 @@ public class PainelConsultaAluno extends JPanel {
         // --- AÇÃO DO BOTÃO ---
         botaoConsultar.addActionListener(e -> {
             String matricula = campoMatricula.getText();
+            
+            matriculaint = Integer.parseInt(matricula);
             if (!matricula.trim().isEmpty()) {
                 // Simula a busca no banco de dados e preenche os componentes
                 popularComDadosMockados();
@@ -95,21 +101,24 @@ public class PainelConsultaAluno extends JPanel {
         campoNomeCurso.setText("");
         modelDadosPessoais.setRowCount(0);
 
+        
+    
         // --- DADOS MOCKADOS DE EXEMPLO ---
         // 1.1: Disciplinas atualmente matriculado
-        List<String> disciplinasAtuais = List.of("Engenharia de Software II", "Redes de Computadores", "Sistemas Operacionais");
-        disciplinasAtuais.forEach(modelMatriculasAtuais::addElement);
-
+        List<String> disciplinasAtuais = Organizador.listaDiscAtuais(matriculaint);
+        disciplinasAtuais.forEach(modelMatriculasAtuais::addElement); 
+        
         // 1.2: Disciplinas já concluídas
-        List<String> disciplinasConcluidas = List.of("Algoritmos I", "Banco de Dados", "Cálculo I", "Estrutura de Dados");
+        List<String> disciplinasConcluidas = Organizador.listaDisConc(matriculaint);
         disciplinasConcluidas.forEach(modelDisciplinasConcluidas::addElement);
 
         // 1.3: Curso do aluno
         Curso cursoDoAluno = new Curso(1, "Sistemas de Informação", 200, 101);
-        campoNomeCurso.setText(cursoDoAluno.getNomeCurso());
+        String curso = Organizador.cursoAluno(matriculaint);
+        campoNomeCurso.setText(curso);
 
         // 1.4: Dados pessoais do aluno
-        Aluno alunoConsultado = new Aluno(202510, "João da Silva", "Rua A, 123", Aluno.TipoAluno.GRADUACAO, 1);
+        Aluno alunoConsultado = Organizador.dadosAluno(matriculaint);
         modelDadosPessoais.addRow(new Object[]{
             alunoConsultado.getMatricula(),
             alunoConsultado.getNomeAlu(),

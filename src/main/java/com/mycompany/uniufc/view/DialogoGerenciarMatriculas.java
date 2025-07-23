@@ -30,17 +30,17 @@ public class DialogoGerenciarMatriculas extends JDialog {
         modelDisponiveis = new DefaultListModel<>();
         modelMatriculadas = new DefaultListModel<>();
 
-        // Pega os IDs de todas as turmas em que o aluno já está matriculado
+  
         List<Integer> idsTurmasMatriculadas = matriculasDoAluno.stream()
                 .map(Matricula::getTurmaId)
                 .collect(Collectors.toList());
 
-        // Popula as duas listas
+      
         for (Turma t : todasAsTurmas) {
             if (idsTurmasMatriculadas.contains(t.getIdTurma())) {
-                modelMatriculadas.addElement(t); // Adiciona na lista da direita (matriculadas)
+                modelMatriculadas.addElement(t);
             } else {
-                modelDisponiveis.addElement(t); // Adiciona na lista da esquerda (disponíveis)
+                modelDisponiveis.addElement(t);
             }
         }
 
@@ -49,7 +49,7 @@ public class DialogoGerenciarMatriculas extends JDialog {
         JList<Turma> listaMatriculadas = new JList<>(modelMatriculadas);
         JButton btnAdicionar = new JButton(">>");
         JButton btnRemover = new JButton("<<");
-        // ... (código do layout da Lista Dupla, similar ao DialogoPreRequisitos)
+      
         
         JPanel painelBotoesMeio = new JPanel(new GridLayout(2, 1, 5, 5));
         painelBotoesMeio.add(btnAdicionar);
@@ -67,8 +67,7 @@ public class DialogoGerenciarMatriculas extends JDialog {
         JPanel painelSalvar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelSalvar.add(btnSalvar);
         
-        // Layout principal...
-        // ...
+
 
         // --- Ações ---
         btnAdicionar.addActionListener(e -> {
@@ -87,7 +86,7 @@ public class DialogoGerenciarMatriculas extends JDialog {
 
         btnSalvar.addActionListener(e -> {
             System.out.println("Salvando matrículas para o aluno " + aluno.getMatricula());
-            // TODO: Lógica para pegar a lista final de turmas matriculadas e atualizar o BD
+            
             dispose();
         });
 
