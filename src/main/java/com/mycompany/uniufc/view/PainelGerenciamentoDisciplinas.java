@@ -17,6 +17,8 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
+import com.mycompany.uniufc.Model.Organizador;
+
 public class PainelGerenciamentoDisciplinas extends JPanel {
     private JTable tabelaDisciplinas;
     private DefaultTableModel modelTabela;
@@ -27,12 +29,8 @@ public class PainelGerenciamentoDisciplinas extends JPanel {
         new Curso(1, "Sistemas de Informação", 180, 101),
         new Curso(2, "Engenharia de Software", 200, 101)
     );
-    private List<Disciplina> listaDeDisciplinas = Arrays.asList(
-        new Disciplina(101, "Algoritmos I", "Conceitos básicos de lógica e programação.", 4, Disciplina.TipoDisciplina.OBRIGATORIA, 1),
-        new Disciplina(102, "Banco de Dados", "Modelagem relacional, SQL e normalização.", 4, Disciplina.TipoDisciplina.OBRIGATORIA, 1),
-        new Disciplina(201, "Engenharia de Requisitos", "Técnicas de levantamento e análise de requisitos.", 4, Disciplina.TipoDisciplina.OBRIGATORIA, 2)
-    );
-
+    private List<Disciplina> listaDeDisciplinas;
+    
     public PainelGerenciamentoDisciplinas() {
         setLayout(new BorderLayout(10, 10));
 
@@ -115,11 +113,11 @@ public class PainelGerenciamentoDisciplinas extends JPanel {
 
     private void preencherTabela() {
         modelTabela.setRowCount(0);
+        
+        listaDeDisciplinas = Organizador.listaDisc();
+        
         for (Disciplina disc : listaDeDisciplinas) {
-            String nomeCurso = listaDeCursos.stream()
-                .filter(c -> c.getCodCurso() == disc.getCodCurso())
-                .map(Curso::getNomeCurso)
-                .findFirst().orElse("N/D");
+            String nomeCurso = Organizador.tradutor("Curso", disc.getCodCurso());
             
             modelTabela.addRow(new Object[]{
                 disc.getCodDisc(),

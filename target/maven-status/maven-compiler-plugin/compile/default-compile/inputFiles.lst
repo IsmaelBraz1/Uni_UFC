@@ -1,42 +1,46 @@
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\Aluno.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\Curso.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\Departamento.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\Disciplina.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\EmailProfessor.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\Funcionario.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\Matricula.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\Professor.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\TelefoneAluno.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\TelefoneProfessor.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\Turma.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\Model\Usuario.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\UniUFC.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoAluno.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoContatosAluno.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoContatosProfessor.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoCurso.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoDepartamento.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoDisciplina.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoFuncionario.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoGerenciarMatriculas.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoPreRequisitos.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoProfessor.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoTurma.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\DialogoUsuario.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelConsultaAluno.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelConsultaCurso.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelConsultaDepartamento.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelConsultaDisciplina.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelConsultaProfessor.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelConsultas.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelDBA.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoAlunos.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoCursos.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoDepartamentos.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoDisciplinas.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoFuncionarios.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoProfessores.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoTurmas.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoUsuarios.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\TelaLogin.java
-C:\Users\IsmaelBrz\Documents\NetBeansProjects\UniUFC\src\main\java\com\mycompany\uniufc\view\TelaPrincipal.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Curso.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoPreRequisitos.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Funcionario.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoTurmas.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\TelaLogin.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Turma.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Organizador.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Usuario.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoGerenciarMatriculas.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelConsultaDepartamento.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoCursos.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoFuncionario.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelConsultaCurso.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoAlunos.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\TelefoneProfessor.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Professor.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoAluno.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoContatosProfessor.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoCurso.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Aluno.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelUsuarioComum.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelConsultaAluno.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoContatosAluno.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelDBA.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoDisciplina.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoProfessor.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoDisciplinas.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoDepartamento.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoFuncionarios.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoUsuarios.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\EmailProfessor.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoUsuario.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\TelaPrincipal.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelConsultaProfessor.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Matricula.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\TelefoneAluno.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoDepartamentos.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelGerenciamentoProfessores.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Departamento.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\DialogoTurma.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelConsultaDisciplina.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Control\Conexao.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelFuncionario.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\Model\Disciplina.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\UniUFC.java
+C:\Users\kaiqd\OneDrive\Documentos\Faculdade\6° semestre\banco de dados\Uni_UFC-painelAluno_ 542062\Uni_UFC-painelAluno\src\main\java\com\mycompany\uniufc\view\PainelConsultas.java

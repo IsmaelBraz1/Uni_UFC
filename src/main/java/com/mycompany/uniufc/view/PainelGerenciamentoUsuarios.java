@@ -11,10 +11,14 @@ package com.mycompany.uniufc.view;
 
 
 
+import com.mycompany.uniufc.Control.Conexao;
 import com.mycompany.uniufc.Model.Usuario;
+import com.mycompany.uniufc.Model.Organizador;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,10 +27,7 @@ public class PainelGerenciamentoUsuarios extends JPanel {
     private JTable tabelaUsuarios;
     private DefaultTableModel modelTabela;
 
-    private List<Usuario> listaDeUsuarios = Arrays.asList(
-        new Usuario(1, "Administrador", "admin", "123", Usuario.NivelAcesso.DBA),
-        new Usuario(2, "Fulano de Tal", "fulano", "456", Usuario.NivelAcesso.FUNCIONARIO)
-    );
+    private List<Usuario> listaDeUsuarios;
 
     public PainelGerenciamentoUsuarios() {
         setLayout(new BorderLayout(10, 10));
@@ -51,6 +52,16 @@ public class PainelGerenciamentoUsuarios extends JPanel {
             DialogoUsuario dialogo = new DialogoUsuario(owner, null);
             dialogo.setVisible(true);
             if(dialogo.foiSalvo()) {
+                Usuario usuario = new Usuario(dialogo.getUsuario().getIdUsuario(), dialogo.getUsuario().getNome(), dialogo.getUsuario().getLogin(), dialogo.getUsuario().getSenha()
+                , dialogo.getUsuario().getNivelAcesso());
+                try {
+                    Conexao.inserirUsuario(usuario);
+                    preencherTabela();
+                } catch (SQLException ex) {
+                    System.getLogger(PainelGerenciamentoUsuarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                } catch (ClassNotFoundException ex) {
+                    System.getLogger(PainelGerenciamentoUsuarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
                 System.out.println("Salvar novo usuário: " + dialogo.getUsuario().getNome());
             }
         });
@@ -66,6 +77,16 @@ public class PainelGerenciamentoUsuarios extends JPanel {
                     DialogoUsuario dialogo = new DialogoUsuario(owner, usuario);
                     dialogo.setVisible(true);
                     if(dialogo.foiSalvo()){
+                         Usuario newUsuario = new Usuario(dialogo.getUsuario().getIdUsuario(), dialogo.getUsuario().getNome(), dialogo.getUsuario().getLogin(), dialogo.getUsuario().getSenha()
+                        , dialogo.getUsuario().getNivelAcesso());
+                        try {
+                            Conexao.atualizarUsuario(newUsuario);
+                            preencherTabela();
+                        } catch (SQLException ex) {
+                            System.getLogger(PainelGerenciamentoUsuarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            System.getLogger(PainelGerenciamentoUsuarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                        }
                         System.out.println("Editar usuário: " + dialogo.getUsuario().getNome());
                     }
                 }
@@ -73,10 +94,46 @@ public class PainelGerenciamentoUsuarios extends JPanel {
                 JOptionPane.showMessageDialog(this, "Selecione um usuário para editar.", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
         });
+        
+         btnExcluir.addActionListener(e -> {
+            int linhaSelecionada = tabelaUsuarios.getSelectedRow();
+            if (linhaSelecionada != -1) {
+
+                int idUsuario = (int) modelTabela.getValueAt(linhaSelecionada, 0);
+
+                int confirm = JOptionPane.showConfirmDialog(
+                        this,
+                        "Tem certeza que deseja excluir o Usuario com id: '" + idUsuario + ")?", // Mensagem
+                        "Confirmar Remoção",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                   try {
+                    Conexao.deletarUsuario((int) idUsuario);
+                    preencherTabela();
+                } catch (SQLException ex) {
+                    System.getLogger(PainelGerenciamentoUsuarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                } catch (ClassNotFoundException ex) {
+                    System.getLogger(PainelGerenciamentoUsuarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+               
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, selecione um Usuario para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        });
+        
+         
     }
 
     private void preencherTabela() {
         modelTabela.setRowCount(0);
+        
+        listaDeUsuarios = Organizador.listaUsers();
+        
         for (Usuario u : listaDeUsuarios) {
             modelTabela.addRow(new Object[]{u.getIdUsuario(), u.getNome(), u.getLogin(), u.getNivelAcesso(), u.getSenha()});
         }

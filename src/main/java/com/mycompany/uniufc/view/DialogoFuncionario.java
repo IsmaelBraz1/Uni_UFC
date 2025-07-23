@@ -9,9 +9,12 @@ package com.mycompany.uniufc.view;
  * @author IsmaelBrz
  */
 
+import com.mycompany.uniufc.Model.Departamento;
 import com.mycompany.uniufc.Model.Funcionario;
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+
 
 public class DialogoFuncionario extends JDialog {
 
@@ -22,7 +25,8 @@ public class DialogoFuncionario extends JDialog {
     private Funcionario funcionarioResultante;
     private boolean salvo = false;
 
-    public DialogoFuncionario(Frame owner, Funcionario funcionarioParaEditar) {
+    // Construtor atualizado para receber a lista de departamentos
+    public DialogoFuncionario(Frame owner, Funcionario funcionarioParaEditar, List<Departamento> departamentos) {
         super(owner, true);
         setTitle(funcionarioParaEditar == null ? "Adicionar Funcionário" : "Editar Funcionário");
 
@@ -31,9 +35,10 @@ public class DialogoFuncionario extends JDialog {
         campoNome = new JTextField(20);
         campoEndereco = new JTextField(30);
         comboTipo = new JComboBox<>(Funcionario.TipoFuncionario.values());
+       
 
-        // Layout
-        JPanel painelFormulario = new JPanel(new GridLayout(4, 2, 5, 5));
+        // Layout atualizado para 5 linhas
+        JPanel painelFormulario = new JPanel(new GridLayout(5, 2, 5, 5));
         painelFormulario.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         painelFormulario.add(new JLabel("ID Funcionário:"));
         painelFormulario.add(campoId);
@@ -43,6 +48,7 @@ public class DialogoFuncionario extends JDialog {
         painelFormulario.add(campoEndereco);
         painelFormulario.add(new JLabel("Tipo:"));
         painelFormulario.add(comboTipo);
+    
 
         // Lógica de Edição
         if (funcionarioParaEditar != null) {
@@ -51,6 +57,8 @@ public class DialogoFuncionario extends JDialog {
             campoNome.setText(funcionarioParaEditar.getNomeFuncionario());
             campoEndereco.setText(funcionarioParaEditar.getEnderecoFuncionario());
             comboTipo.setSelectedItem(funcionarioParaEditar.getTipoFuncionario());
+            
+            
         }
 
         // Botões
@@ -82,7 +90,9 @@ public class DialogoFuncionario extends JDialog {
             String nome = campoNome.getText();
             String endereco = campoEndereco.getText();
             Funcionario.TipoFuncionario tipo = (Funcionario.TipoFuncionario) comboTipo.getSelectedItem();
+           
 
+            // CORREÇÃO: Chamando o construtor com os 5 argumentos corretos
             this.funcionarioResultante = new Funcionario(id, nome, endereco, tipo);
             this.salvo = true;
             dispose();

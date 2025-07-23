@@ -8,10 +8,12 @@ package com.mycompany.uniufc.view;
  *
  * @author IsmaelBrz
  */
+import com.mycompany.uniufc.Control.Conexao;
 import com.mycompany.uniufc.view.DialogoAluno;
 import com.mycompany.uniufc.Model.Aluno;
 import com.mycompany.uniufc.Model.Curso;
 import com.mycompany.uniufc.Model.Matricula;
+import com.mycompany.uniufc.Model.Organizador;
 import com.mycompany.uniufc.Model.Turma;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +22,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.mycompany.uniufc.Model.Organizador;
+import java.sql.SQLException;
+
 public class PainelGerenciamentoAlunos extends JPanel {
 
     private JTable tabelaAlunos;
@@ -27,23 +32,17 @@ public class PainelGerenciamentoAlunos extends JPanel {
     private JButton botaoAdicionar, botaoEditar, botaoExcluir;
 
     // Dados Mockados para simular o banco
-    private List<Curso> listaDeCursos = Arrays.asList(
-        new Curso(1, "Sistemas de Informação", 180, 101),
-        new Curso(2, "Engenharia de Software", 200, 101)
-    );
-    private List<Aluno> listaDeAlunos = Arrays.asList(
-        new Aluno(202510, "João da Silva", "Rua A, 123", Aluno.TipoAluno.GRADUACAO, 1),
-        new Aluno(202511, "Maria Oliveira", "Rua B, 456", Aluno.TipoAluno.GRADUACAO, 2),
-        new Aluno(90901, "Carlos Pereira", "Rua C, 789", Aluno.TipoAluno.POS_GRADUACAO, 1)
-    );
-    
+    private List<Curso> listaDeCursos;// = Arrays.asList(Conexao.listarCursos());
+    private List<Aluno> listaDeAlunos;
+
     private List<Turma> listaDeTurmas = Arrays.asList(
-        new Turma(1, 2025, 1, 102, 9001, null),
-        new Turma(2, 2025, 1, 101, 9002, null)
+            new Turma(1, 2025, 1, 102, 9001, null),
+            new Turma(2, 2025, 1, 101, 9002, null)
     );
     private List<Matricula> listaDeMatriculas = Arrays.asList(
-        new Matricula(202510, 1, Matricula.Situacao.ATIVA, null, null) // Matrícula do João na turma 1
+            new Matricula(202510, 1, Matricula.Situacao.ATIVA, null, null) // Matrícula do João na turma 1
     );
+    private Aluno aluno;
 
     public PainelGerenciamentoAlunos() {
         setLayout(new BorderLayout(10, 10));
@@ -63,14 +62,31 @@ public class PainelGerenciamentoAlunos extends JPanel {
         preencherTabela();
         add(new JScrollPane(tabelaAlunos), BorderLayout.CENTER);
 
+        try {
+            listaDeCursos = Conexao.listarCursos();
+        } catch (SQLException ex) {
+            System.getLogger(PainelGerenciamentoAlunos.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (ClassNotFoundException ex) {
+            System.getLogger(PainelGerenciamentoAlunos.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
         // --- AÇÕES ---
         botaoAdicionar.addActionListener(e -> {
             Frame owner = (Frame) SwingUtilities.getWindowAncestor(this);
-           DialogoAluno dialogo = new DialogoAluno(owner, null, listaDeCursos, listaDeTurmas, listaDeMatriculas);
+            DialogoAluno dialogo = new DialogoAluno(owner, null, listaDeCursos, listaDeTurmas, listaDeMatriculas);
             dialogo.setVisible(true);
 
             if (dialogo.foiSalvo()) {
                 System.out.println("Salvar novo aluno: " + dialogo.getAluno().getNomeAlu());
+                Aluno newAluno = new Aluno(dialogo.getAluno().getMatricula(), dialogo.getAluno().getNomeAlu(), dialogo.getAluno().getEndereco(), dialogo.getAluno().getTipoAlu(), dialogo.getAluno().getCodCurso());
+                try {
+                    Conexao.inserirAluno(newAluno);
+                    preencherTabela();
+                } catch (SQLException ex) {
+                    System.getLogger(PainelGerenciamentoAlunos.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                } catch (ClassNotFoundException ex) {
+                    System.getLogger(PainelGerenciamentoAlunos.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
             }
         });
 
@@ -79,38 +95,64 @@ public class PainelGerenciamentoAlunos extends JPanel {
             if (linha != -1) {
                 int matricula = (int) modelTabela.getValueAt(linha, 0);
                 Aluno aluno = listaDeAlunos.stream().filter(a -> a.getMatricula() == matricula).findFirst().orElse(null);
-                
+
                 if (aluno != null) {
                     Frame owner = (Frame) SwingUtilities.getWindowAncestor(this);
-                   DialogoAluno dialogo = new DialogoAluno(owner, aluno, listaDeCursos, listaDeTurmas, listaDeMatriculas);
+                    DialogoAluno dialogo = new DialogoAluno(owner, aluno, listaDeCursos, listaDeTurmas, listaDeMatriculas);
                     dialogo.setVisible(true);
 
                     if (dialogo.foiSalvo()) {
                         System.out.println("Editar aluno: " + dialogo.getAluno().getNomeAlu());
+                        Aluno newAluno = new Aluno(dialogo.getAluno().getMatricula(), dialogo.getAluno().getNomeAlu(), dialogo.getAluno().getEndereco(), dialogo.getAluno().getTipoAlu(), dialogo.getAluno().getCodCurso());
+
+                        try {
+                            Conexao.atualizarAluno(newAluno);
+                            preencherTabela();
+                        } catch (SQLException ex) {
+                            System.getLogger(PainelGerenciamentoAlunos.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            System.getLogger(PainelGerenciamentoAlunos.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                        }
                     }
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione um aluno para editar.", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
         });
-        
+
         botaoExcluir.addActionListener(e -> {
-             if (tabelaAlunos.getSelectedRow() != -1) {
-                 JOptionPane.showMessageDialog(this, "Ação de excluir a ser implementada.");
-             } else {
-                 JOptionPane.showMessageDialog(this, "Selecione um curso para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
-             }
+            
+             // Futuramente, pedirá confirmação e excluirá o registro
+            int linhaSelecionada = tabelaAlunos.getSelectedRow();
+            if (linhaSelecionada != -1) {
+                System.out.println("Botão EXCLUIR Departamento clicado para a linha: " + linhaSelecionada);
+                // Exemplo de como obter o valor da célula
+                
+                Object codAluno = tabelaAlunos.getValueAt(linhaSelecionada, 0);
+                try {
+                    Conexao.deletarAluno((int) codAluno);
+                    preencherTabela();
+                } catch (SQLException ex) {
+                    System.getLogger(PainelGerenciamentoAlunos.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                } catch (ClassNotFoundException ex) {
+                    System.getLogger(PainelGerenciamentoAlunos.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+                JOptionPane.showMessageDialog(this, "Excluir Aluno com código: " + codAluno);
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, selecione um aluno para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
         });
     }
 
     private void preencherTabela() {
         modelTabela.setRowCount(0);
+
+        listaDeAlunos = Organizador.listaAlu();
+
         for (Aluno aluno : listaDeAlunos) {
-            String nomeCurso = listaDeCursos.stream()
-                .filter(c -> c.getCodCurso() == aluno.getCodCurso())
-                .map(Curso::getNomeCurso)
-                .findFirst().orElse("N/D");
-            
+
+            String nomeCurso = Organizador.tradutor("Aluno", aluno.getMatricula());
             modelTabela.addRow(new Object[]{
                 aluno.getMatricula(),
                 aluno.getNomeAlu(),

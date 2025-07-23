@@ -15,6 +15,8 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
+import com.mycompany.uniufc.Model.Organizador;
+
 public class PainelGerenciamentoDepartamentos extends JPanel {
 
     private JTable tabelaDepartamentos;
@@ -22,11 +24,7 @@ public class PainelGerenciamentoDepartamentos extends JPanel {
     private JButton botaoAdicionar, botaoEditar, botaoExcluir;
 
     // Usaremos os mesmos dados mockados por enquanto
-    private List<Departamento> listaDeDepartamentos = Arrays.asList(
-        new Departamento(101, "Ciência da Computação"),
-        new Departamento(102, "Engenharia Elétrica"),
-        new Departamento(103, "Matemática")
-    );
+    private List<Departamento> listaDeDepartamentos;
 
     public PainelGerenciamentoDepartamentos() {
         setLayout(new BorderLayout(10, 10));
@@ -53,6 +51,7 @@ public class PainelGerenciamentoDepartamentos extends JPanel {
 
         add(new JScrollPane(tabelaDepartamentos), BorderLayout.CENTER);
 
+        
         // --- AÇÕES DOS BOTÕES ---
         botaoAdicionar.addActionListener(e -> {
             // Pega a janela principal como "pai" do diálogo
@@ -111,6 +110,9 @@ public class PainelGerenciamentoDepartamentos extends JPanel {
     private void preencherTabela() {
         // Limpa a tabela antes de preencher
         modelTabela.setRowCount(0);
+        
+        listaDeDepartamentos = Organizador.listaDepart();
+        
         for (Departamento depto : listaDeDepartamentos) {
             modelTabela.addRow(new Object[]{depto.getCodDepart(), depto.getNomeDepart()});
         }

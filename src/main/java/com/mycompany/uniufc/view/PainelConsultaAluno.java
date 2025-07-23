@@ -8,14 +8,12 @@ package com.mycompany.uniufc.view;
  *
  * @author IsmaelBrz
  */
-
 import com.mycompany.uniufc.Model.Aluno;
 import com.mycompany.uniufc.Model.Curso;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
-
 
 public class PainelConsultaAluno extends JPanel {
 
@@ -96,16 +94,16 @@ public class PainelConsultaAluno extends JPanel {
         modelDisciplinasConcluidas.clear();
         campoNomeCurso.setText("");
         modelDadosPessoais.setRowCount(0);
-        
+
         // --- DADOS MOCKADOS DE EXEMPLO ---
         // 1.1: Disciplinas atualmente matriculado
         List<String> disciplinasAtuais = List.of("Engenharia de Software II", "Redes de Computadores", "Sistemas Operacionais");
         disciplinasAtuais.forEach(modelMatriculasAtuais::addElement);
-        
+
         // 1.2: Disciplinas já concluídas
         List<String> disciplinasConcluidas = List.of("Algoritmos I", "Banco de Dados", "Cálculo I", "Estrutura de Dados");
         disciplinasConcluidas.forEach(modelDisciplinasConcluidas::addElement);
-        
+
         // 1.3: Curso do aluno
         Curso cursoDoAluno = new Curso(1, "Sistemas de Informação", 200, 101);
         campoNomeCurso.setText(cursoDoAluno.getNomeCurso());
@@ -120,4 +118,3 @@ public class PainelConsultaAluno extends JPanel {
         });
     }
 }
-

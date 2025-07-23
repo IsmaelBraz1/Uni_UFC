@@ -12,12 +12,16 @@ package com.mycompany.uniufc.view;
 import com.mycompany.uniufc.Model.Disciplina;
 import com.mycompany.uniufc.Model.Professor;
 import com.mycompany.uniufc.Model.Turma;
+import com.mycompany.uniufc.Model.Organizador;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+
+
 
 public class PainelGerenciamentoTurmas extends JPanel {
     private JTable tabelaTurmas;
@@ -33,11 +37,8 @@ public class PainelGerenciamentoTurmas extends JPanel {
         new Disciplina(102, "Banco de Dados", "", 4, null, 1),
         new Disciplina(101, "Algoritmos I", "", 4, null, 1)
     );
-    private List<Turma> listaTurmas = Arrays.asList(
-        new Turma(1, 2025, 1, 102, 9001, 9002),
-        new Turma(2, 2025, 1, 101, 9002, null)
-    );
-
+    private List<Turma> listaTurmas;
+    
     public PainelGerenciamentoTurmas() {
         setLayout(new BorderLayout(10, 10));
 
@@ -113,10 +114,14 @@ public class PainelGerenciamentoTurmas extends JPanel {
 
     private void preencherTabela() {
         modelTabela.setRowCount(0);
+        
+        listaTurmas = Organizador.listaTurms();
+        
         for (Turma turma : listaTurmas) {
-            String nomeDisc = listaDiscs.stream().filter(d -> d.getCodDisc() == turma.getCodDisc()).findFirst().map(Disciplina::getNomeDisc).orElse("N/D");
-            String nomeProf = listaProfs.stream().filter(p -> p.getSiape() == turma.getSiapeProf1()).findFirst().map(Professor::getNomeProf).orElse("N/D");
-
+            
+            String nomeDisc = Organizador.tradutor("Disciplina", turma.getCodDisc());
+            String nomeProf = Organizador.tradutor("Professor", turma.getSiapeProf1());
+            
             modelTabela.addRow(new Object[]{
                 turma.getIdTurma(),
                 turma.getAno() + "/" + turma.getSemestre(),
